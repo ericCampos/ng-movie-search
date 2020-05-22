@@ -8,7 +8,7 @@ import { MovieSearch, Movie } from '../models/movie.model';
     providedIn: 'root',
 })
 export class MoviesService {
-    API_URL = 'http://www.omdbapi.com/';
+    API_URL = 'https://www.omdbapi.com/';
     API_KEY = '4b0905ec';
     constructor(private http: HttpClient) {}
 
