@@ -34,8 +34,8 @@ export class MovieSearchComponent implements AfterViewInit {
         if (queryString && !this.favouriteSearches.find((search) => search.searchString === queryString)) {
             this.favouriteSearches.push({ searchString: queryString, counter: 1 });
             this.isSearchFavourite = true;
-            this.favouriteSearches.sort((a, b) => b.counter - a.counter);
         }
+        this.favouriteSearches.sort((a, b) => b.counter - a.counter);
     }
 
     search(queryString) {
