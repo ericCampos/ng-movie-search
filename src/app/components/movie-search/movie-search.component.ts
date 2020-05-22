@@ -1,6 +1,6 @@
 import { Component, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
 import { MoviesService } from 'src/app/services/movies.service';
-import { Movie, FavouriteSearch } from 'src/app/models/movie.model';
+import { Movie, FavoriteSearch } from 'src/app/models/movie.model';
 import { fromEvent } from 'rxjs';
 import { map, debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
@@ -14,8 +14,8 @@ export class MovieSearchComponent implements AfterViewInit {
 
     movies: Movie[] = [];
     selectedMovie: Movie;
-    favouriteSearches: FavouriteSearch[] = [];
-    isSearchFavourite = false;
+    favoriteSearches: FavoriteSearch[] = [];
+    isSearchFavorite = false;
 
     @ViewChild('searchInput') searchInput: ElementRef;
 
@@ -29,33 +29,47 @@ export class MovieSearchComponent implements AfterViewInit {
             .subscribe((queryString) => this.search(queryString));
     }
 
-    setSearchAsFavorite(queryString) {
-        // If the query string does not exists, we add it to favourite searches, then we sort descendingly
-        if (queryString && !this.favouriteSearches.find((search) => search.searchString === queryString)) {
-            this.favouriteSearches.push({ searchString: queryString, counter: 1 });
-            this.isSearchFavourite = true;
+    setSearchAsFavorite(queryString: string) {
+        // If the query string does not exists, we add it to favorite searches, then we sort descendingly.
+        if (queryString && !this.findFavoriteSearch(queryString)) {
+            this.favoriteSearches.push({ favoriteString: queryString, counter: 1 });
+            this.isSearchFavorite = true;
         }
-        this.favouriteSearches.sort((a, b) => b.counter - a.counter);
+        this.sortFavoriteSearches();
     }
 
-    search(queryString) {
+    search(queryString: string) {
         if (queryString && queryString.length > 1)
             this.moviesService.searchMovie(queryString).subscribe((movies: Movie[]) => {
                 this.movies = movies;
                 this.hasResults = movies && movies.length > 0;
                 if (this.hasResults) {
-                    const searchItem = this.favouriteSearches.find((search) => search.searchString === queryString);
-                    if (searchItem) {
-                        this.isSearchFavourite = true;
-                        searchItem.counter++;
-                    } else this.isSearchFavourite = false;
+                    const favoriteSearch = this.findFavoriteSearch(queryString);
+                    if (favoriteSearch) {
+                        this.isSearchFavorite = true;
+                        favoriteSearch.counter++;
+                        this.sortFavoriteSearches();
+                    } else this.isSearchFavorite = false;
                 }
             });
         else {
             this.movies = [];
             this.hasResults = false;
-            this.isSearchFavourite = false;
+            this.isSearchFavorite = false;
             this.selectedMovie = null;
         }
+    }
+
+    sortFavoriteSearches() {
+        this.favoriteSearches.sort((a, b) => b.counter - a.counter);
+    }
+
+    /**
+     * Passing a string as a parameter, returns the favorite string object if found, else returns null.
+     * @param searchString String to search.
+     * @return Favorite search object or null.
+     */
+    findFavoriteSearch(searchString: string) {
+        return this.favoriteSearches.find((favoriteSearch) => favoriteSearch.favoriteString === searchString);
     }
 }

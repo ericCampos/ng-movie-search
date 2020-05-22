@@ -11,7 +11,7 @@ export class Movie {
     Poster: string;
 }
 
-export class FavouriteSearch {
-    searchString: string;
+export class FavoriteSearch {
+    favoriteString: string;
     counter: number;
 }

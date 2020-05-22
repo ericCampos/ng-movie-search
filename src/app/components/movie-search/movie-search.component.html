@@ -8,17 +8,17 @@
                     id="favorite-button"
                     [disabled]="!hasResults"
                     (click)="setSearchAsFavorite(searchInput.value)"
-                    [class.highlighted]="isSearchFavourite"
+                    [class.highlighted]="isSearchFavorite"
                     class="btn btn-primary btn-fab btn-icon"
                     placement="top"
-                    tooltip="Set search as favourite"
+                    tooltip="Set search as favorite"
                 >
                     <i class="tim-icons icon-shape-star"></i>
                 </button>
             </div>
             <div class="form-group col-sm-6">
                 <h5>Your 3 most favorite searches</h5>
-                <a class="badge badge-info mr-1" *ngFor="let search of favouriteSearches | slice: 0:3; let i = index">
+                <a class="badge badge-info mr-1" *ngFor="let search of favoriteSearches | slice: 0:3; let i = index">
                     {{ search.searchString + ' (' + search.counter + ')' }}
                 </a>
             </div>
