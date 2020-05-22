@@ -19,7 +19,7 @@
             <div class="form-group col-sm-6">
                 <h5>Your 3 most favorite searches</h5>
                 <a class="badge badge-info mr-1" *ngFor="let search of favoriteSearches | slice: 0:3; let i = index">
-                    {{ search.searchString + ' (' + search.counter + ')' }}
+                    {{ search.favoriteString + ' (' + search.counter + ')' }}
                 </a>
             </div>
         </div>
