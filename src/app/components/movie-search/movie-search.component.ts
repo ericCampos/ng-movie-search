@@ -48,6 +48,8 @@ export class MovieSearchComponent implements AfterViewInit {
                     if (searchItem) {
                         this.isSearchFavourite = true;
                         searchItem.counter++;
+                    } else {
+                        this.isSearchFavourite = false;
                     }
                 }
             });
