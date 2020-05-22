@@ -1,0 +1,57 @@
+<div class="container mt-5">
+    <form>
+        <div class="form-row">
+            <div class="form-group col-sm-6">
+                <label for="search-input">Search by movie title</label>
+                <input
+                    #searchInput
+                    id="search-input"
+                    type="text"
+                    class="form-control"
+                    placeholder="Search..."
+                    />
+                <button
+                    id="favorite-button"
+                    [disabled]="!hasResults"
+                    (click)="setSearchAsFavorite(searchInput.value)"
+                    [class.highlighted]="isSearchFavourite"
+                    class="btn btn-primary btn-fab btn-icon"
+                    placement="top"
+                    tooltip="Set search as favourite">
+                    <i class="tim-icons icon-shape-star"></i>
+                </button>
+            </div>
+            <div class="form-group col-sm-6">
+                <h5>Your 3 most favorite searches
+                </h5>
+                <a class="badge badge-info mr-1" *ngFor="let search of
+                    favouriteSearches | slice:0:3; let i=index">
+                    {{ search.searchString +" ("+search.counter+")" }}
+                </a>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-6 movie-list">
+            <div class="movie-container scroller scrollable data-simplebar"
+                *ngIf="hasResults">
+                <button class="btn btn-primary w-95 movie-btn"
+                    (click)="selectedMovie= movie" *ngFor="let
+                    movie of
+                    movies">{{ movie.Title }}</button>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="col mt-sm-0 movie-image"
+                *ngIf="selectedMovie">
+                <img alt="{{ selectedMovie.Title}}"
+                    title="{{ selectedMovie.Title }}"
+                    class="img-fluid rounded shadow-lg"
+                    src="{{ selectedMovie.Poster }}" />
+                <p>{{ selectedMovie.Title}}</p>
+            </div>
+        </div>
+    </div>
+</div>
